@@ -8,9 +8,12 @@ QTRSensorsRC qtrrc((unsigned char[]) {2,3,4}, NUM_SENSORS, TIMEOUT, EMITTER_PIN)
 unsigned int sensorValues[NUM_SENSORS];
 
 void setup() {
-  // put your setup code here, to run once:
+//  Declare instance of Servo and then init to the proper pins
   Servo servoRight;
   Servo servoLeft;
+  servoRight.attach(13);
+  servoLeft.attach(12);
+  
   Serial.begin(9600);
 
   for(int i = 0; i < NUM_SENSORS; i++) {
@@ -32,16 +35,11 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-//  Servo servoRight;
-//  Servo servoLeft;
-  servoRight.attach(13);
-  servoLeft.attach(12);
   
-  /*servoLeft.writeMicroseconds(1000);//Always Under 1500. This is driving forward.1485
-  servoRight.writeMicroseconds(2000);//Always Above 1500. 1515*/
   qtrrc.read(sensorValues);
   servoLeft.writeMicroseconds(1400);//Always Under 1500. This is driving forward.
   servoRight.writeMicroseconds(1600);//Always Above 1500. 1515
+  
   for(unsigned char i = 0; i < NUM_SENSORS; i++) {
     Serial.print(sensorValues[i]);
     Serial.print('\t');
